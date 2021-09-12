@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
 using Undine.Core;
+using Undine.DefaultEcs;
+using Undine.LeopotamEcs;
 using Undine.MinEcs;
 using Undine.MonoGame;
 using Undine.MonoGame.Primitives2D;
@@ -28,7 +30,6 @@ namespace Pong
         private Camera2D _camera;
         private ISystem _primitives2DSystem;
 
-        //private FormsTest.MyControls _controls;
         private VelcroPhysicsSystem _velcroPhysicsSystem;
 
         private VelcroPhysicsComponent _ballPhysics;
@@ -42,8 +43,10 @@ namespace Pong
             };
             _preferredBackBufferHeight = Graphics.PreferredBackBufferHeight;
             _preferredBackBufferWidth = Graphics.PreferredBackBufferWidth;
+            Content.RootDirectory = "Content";
             SetScore();
         }
+
         private void Window_ClientSizeChanged(object sender, System.EventArgs e)
         {
             _scale = Matrix.CreateScale((float)Graphics.GraphicsDevice.Viewport.Width / (float)_preferredBackBufferWidth,
@@ -55,15 +58,13 @@ namespace Pong
             float meterInPixels = 16;
             ConvertUnits.SetDisplayUnitToSimUnitRatio(meterInPixels);
             this.IsMouseVisible = true;
-            //_controls = new FormsTest.MyControls(this);
-            //this.Components.Add(_controls);
             this.Window.AllowUserResizing = true;
             base.Initialize();
             Window_ClientSizeChanged(null, null);
             var screenCenter = new Vector2(Graphics.GraphicsDevice.Viewport.Width / 2f, Graphics.GraphicsDevice.Viewport.Height / 2f);
 
-            //_ecsContainer = new DefaultEcsContainer();
-            _ecsContainer = new MinEcsContainer();
+            _ecsContainer = new DefaultEcsContainer();
+            //_ecsContainer = new MinEcsContainer();
             //_ecsContainer = new LeopotamEcsContainer();
             _ecsContainer.AddSystem(new KeyboardSystem());
             _ecsContainer.AddSystem(new PaddleControlSystem(16));
@@ -138,9 +139,6 @@ namespace Pong
 
             this.Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
-
-            //_graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
         }
 
         protected override void LoadContent()
@@ -156,10 +154,10 @@ namespace Pong
         }
 
         private bool enabled;
+
         protected override void Update(GameTime gameTime)
         {
             _velcroPhysicsSystem.ElapsedGameTimeTotalSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //_controls.Visible = false;
             var keys = Keyboard.GetState().GetPressedKeys();
             if (keys.Any())
                 enabled = true;
@@ -195,6 +193,7 @@ namespace Pong
                 _ecsContainer.Run();
             base.Update(gameTime);
         }
+
         private SpriteFont _font;
         private static int scoreLeft = 0;
         private static int scoreRight = 0;
@@ -204,6 +203,7 @@ namespace Pong
         {
             score = string.Format(format: "{0}:{1}", arg0: scoreLeft, arg1: scoreRight);
         }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
