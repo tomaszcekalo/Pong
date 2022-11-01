@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Undine.Core;
 using Undine.DefaultEcs;
-using Undine.LeopotamEcs;
-using Undine.MinEcs;
+
 using Undine.MonoGame;
 using Undine.MonoGame.Primitives2D;
 using Undine.VelcroPhysics.MonoGame;
 using VelcroPhysics.Utilities;
+
+//using Undine.LeopotamEcs;
+//using Undine.MinEcs;
 
 namespace Pong
 {
