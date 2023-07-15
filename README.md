@@ -1,2 +1,2 @@
 # Pong
-pong using undine libraries, currently not working on my machine
+pong using undine libraries
